@@ -104,9 +104,10 @@ export class EwtInstallDialog extends LitElement {
     let allowClosing = false;
 
     console.log("Variable Set: ", this.bloxLogOnly)
-    if (this.bloxLogOnly) {
+    if (this.bloxLogOnly == "true") {
       this._state = "LOGS"
     }
+
 
     // During installation phase we temporarily remove the client
     if (
@@ -704,6 +705,7 @@ export class EwtInstallDialog extends LitElement {
             this._state = "DASHBOARD";
             this._initialize();
           }
+
         }}
       ></ewt-button>
       <ewt-button
