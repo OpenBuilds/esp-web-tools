@@ -61,7 +61,7 @@ export const flash = async (
     fireStateEvent({
       state: FlashStateType.ERROR,
       message:
-        "Failed to initialize. Try resetting your device or holding the BOOT button while clicking INSTALL.",
+        "Failed to initialize. Make sure you placed the BLOX in Bootloader Mode",
       details: { error: FlashError.FAILED_INITIALIZING, details: err },
     });
     await resetTransport(transport);

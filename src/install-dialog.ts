@@ -291,7 +291,7 @@ export class EwtInstallDialog extends LitElement {
     return [heading, content, hideActions, allowClosing];
   }
   _renderDashboardNoImprov(): [string, TemplateResult, boolean, boolean] {
-    const heading = "Device Dashboard";
+    const heading = "BLOX Firmware Flashing Tool";
     let content: TemplateResult;
     let hideActions = true;
     let allowClosing = true;
@@ -627,7 +627,7 @@ export class EwtInstallDialog extends LitElement {
         html`
           ${undeterminateLabel ? html`${undeterminateLabel}<br />` : ""}
           <br />
-          This will take
+          This will take up to
           ${this._installState.chipFamily === "ESP8266"
             ? "a minute"
             : "2 minutes"}.<br />
