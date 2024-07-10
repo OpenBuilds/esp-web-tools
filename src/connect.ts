@@ -1,6 +1,7 @@
 import type { InstallButton } from "./install-button.js";
 
-export const connect = async (button: InstallButton) => {
+export const connect = async (button: InstallButton, bloxLogOnly: any) => {
+  console.log("Additional parameter:", bloxLogOnly);
   import("./install-dialog.js");
   let port: SerialPort | undefined;
   try {
@@ -8,7 +9,7 @@ export const connect = async (button: InstallButton) => {
   } catch (err: any) {
     if ((err as DOMException).name === "NotFoundError") {
       import("./no-port-picked/index").then((mod) =>
-        mod.openNoPortPickedDialog(() => connect(button)),
+        mod.openNoPortPickedDialog(() => connect(button, bloxLogOnly)),
       );
       return;
     }
@@ -29,6 +30,7 @@ export const connect = async (button: InstallButton) => {
 
   const el = document.createElement("ewt-install-dialog");
   el.port = port;
+  el.bloxLogOnly = bloxLogOnly;
   el.manifestPath = button.manifest || button.getAttribute("manifest")!;
   el.overrides = button.overrides;
   el.addEventListener(

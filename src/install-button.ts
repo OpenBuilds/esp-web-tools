@@ -96,7 +96,9 @@ export class InstallButton extends HTMLElement {
 
     slot.addEventListener("click", async (ev) => {
       ev.preventDefault();
-      connect(this);
+      const bloxLogOnly = this.getAttribute("data-bloxLogOnly"); // Retrieve the parameter from an attribute or define it here
+      console.log(bloxLogOnly)
+      connect(this, bloxLogOnly);
     });
 
     slot.name = "activate";

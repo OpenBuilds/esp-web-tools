@@ -43,6 +43,8 @@ const OK_ICON = "🎉";
 export class EwtInstallDialog extends LitElement {
   public port!: SerialPort;
 
+  public bloxLogOnly!: any;
+
   public manifestPath!: string;
 
   public logger: Logger = console;
@@ -88,9 +90,18 @@ export class EwtInstallDialog extends LitElement {
   @state() private _selectedSsid: string | null = null;
 
   protected render() {
+
+
+
     if (!this.port) {
       return html``;
     }
+
+    console.log("Variable Set: ", this.bloxLogOnly)
+    if (this.bloxLogOnly) {
+      this._state = "LOGS"
+    }
+
     let heading: string | undefined;
     let content: TemplateResult;
     let hideActions = false;
@@ -108,6 +119,7 @@ export class EwtInstallDialog extends LitElement {
         content = this._renderProgress("Connecting");
         hideActions = true;
       }
+
     } else if (this._state === "INSTALL") {
       [heading, content, hideActions, allowClosing] = this._renderInstall();
     } else if (this._state === "ASK_ERASE") {
@@ -685,8 +697,13 @@ export class EwtInstallDialog extends LitElement {
         label="Back"
         @click=${async () => {
           await this.shadowRoot!.querySelector("ewt-console")!.disconnect();
-          this._state = "DASHBOARD";
-          this._initialize();
+          if (this.bloxLogOnly) {
+            this._handleClose()
+          } else {
+            this._state = "DASHBOARD";
+            this._initialize();
+          }
+
         }}
       ></ewt-button>
       <ewt-button
@@ -826,6 +843,7 @@ export class EwtInstallDialog extends LitElement {
       this._state = "ERROR";
       this._error = "Failed to download manifest";
       return;
+      //this._state = "LOGS";
     }
 
     if (this._manifest.new_install_improv_wait_time === 0) {
